@@ -157,8 +157,8 @@
     // This should be called beforeinit , if possible; otherwise call it as soon as the location is available.
     // [IOS] (float) horizontalAccuracy : The radius of uncertainty for the location in meters.
     // [IOS] (float) verticalAccuracy : The accuracy of the altitude value in meters
-    Flurry.prototype.setLocation = function(lat, lng,  hr, vt, hsuccessCallback, failureCallback) {
-        return cordova.exec(successCallback, failureCallback, 'FlurryPlugin', 'setLocation', [lat, lng, hr, vt]);
+    Flurry.prototype.setLocation = function(lat, lng,  hr, vt, successCallback, failureCallback) {
+        return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setLocation', [lat, lng, hr, vt]);
     };  
     
     // Use onError to report errors that your application catches. 
