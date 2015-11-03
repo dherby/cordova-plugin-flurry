@@ -90,12 +90,16 @@ public class Flurry extends CordovaPlugin {
                 FlurryAgent.setCaptureUncaughtExceptions(args.optString(0).equalsIgnoreCase("Yes"));
             } else if (action.equals("getSessionId")) {
                 callbackContext.success(FlurryAgent.getSessionId());
+                return true; 
             } else if (action.equals("getReleaseVersion")) {
                 callbackContext.success(FlurryAgent.getReleaseVersion());
+                return true; 
             } else if (action.equals("getAgentVersion")) {
                 callbackContext.success(FlurryAgent.getAgentVersion());
+                return true; 
             } else if (action.equals("isSessionActive")) {
-                callbackContext.success(FlurryAgent.isSessionActive());
+                callbackContext.success(FlurryAgent.isSessionActive() ? 1 : 0);
+                return true; 
             }
             else if (action.equals("onPageView")) {
                 FlurryAgent.onPageView();
