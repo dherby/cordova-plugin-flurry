@@ -4,7 +4,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	id="cordova-plugin-flurry"
 	version="3.3.6">
-	<name>Flurry</name>
+	<name>Flurry Analytics Plugin</name>
 	<description>Cordova/Phonegap plugin for Flurry mobile analytics</description>
 	<license>Apache 2.0</license>
 	<keywords>flurry,analytics,phonegap,cordova</keywords>
