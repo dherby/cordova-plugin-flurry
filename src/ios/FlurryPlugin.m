@@ -20,7 +20,7 @@
 }
 
 
-- (void) setAppVersion:(CDVInvokedUrlCommand*)command
+- (void) setVersionName:(CDVInvokedUrlCommand*)command
 {
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
@@ -211,7 +211,7 @@
     }];
 }
 
-- (void) logPageView:(CDVInvokedUrlCommand*)command
+- (void) onPageView:(CDVInvokedUrlCommand*)command
 {
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
@@ -298,8 +298,7 @@
     }];
 }
 
-
-- (void) setShowErrorInLogEnabled:(CDVInvokedUrlCommand*)command
+- (void) setLogEnabled:(CDVInvokedUrlCommand*)command
 {
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
@@ -340,8 +339,7 @@
     }];
 }
 
-
-- (void) setEventLoggingEnabled:(CDVInvokedUrlCommand*)command
+- (void) setLogEvents:(CDVInvokedUrlCommand*)command
 {
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
@@ -429,7 +427,7 @@
     }];
 }
 
-- (void) setSessionContinueSeconds:(CDVInvokedUrlCommand*)command
+- (void) setContinueSessionMillis:(CDVInvokedUrlCommand*)command
 {
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
@@ -437,7 +435,7 @@
         NSLog(@"Setting Flurry Session Limit to %@", [command.arguments objectAtIndex:0]);
         
         @try {
-            int Seconds = [[command.arguments objectAtIndex:0]integerValue];
+            int Seconds = [[command.arguments objectAtIndex:0]integerValue] / 1000;
             
             [Flurry setSessionContinueSeconds: Seconds];
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -451,7 +449,7 @@
     }];
 }
 
-- (void) setLatitude:(CDVInvokedUrlCommand*)command
+- (void) setLocation:(CDVInvokedUrlCommand*)command
 {
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
@@ -476,7 +474,7 @@
     }];
 }
 
-- (void) logError:(CDVInvokedUrlCommand*)command
+- (void) onError:(CDVInvokedUrlCommand*)command
 {
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
