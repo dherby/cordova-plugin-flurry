@@ -40,12 +40,38 @@ public class Flurry extends CordovaPlugin {
                 FlurryAgent.onStartSession(cordova.getActivity().getBaseContext(), args.getString(0));
             } else if(action.equals("endSession")) {
                 FlurryAgent.onEndSession(cordova.getActivity().getBaseContext());
-            } else if(action.equals("setSessionContinueSeconds")) {
+            } else if(action.equals("setContinueSessionMillis")) {
                 FlurryAgent.setContinueSessionMillis(args.getLong(0));
             } else if(action.equals("setAppVersion")) {
                 FlurryAgent.setVersionName(args.getString(0));
             } else if(action.equals("setUserID")) {
                 FlurryAgent.setUserId(args.getString(0));
+            } else if (action.equals("setLogEnabled") {
+                FlurryAgent.setLogEvents(args.optString(0).equalsIgnoreCase("Yes"));
+            } else if (action.equals("setLogEvents") {
+                FlurryAgent.setLogEvents(args.optString(0).equalsIgnoreCase("Yes"));
+            } else if (action.equals("setReportLocation") {
+                FlurryAgent.setReportLocation(args.optString(0).equalsIgnoreCase("Yes"));
+            } else if (action.equals("setPulseEnabled") {
+                FlurryAgent.setPulseEnabled(args.optString(0).equalsIgnoreCase("Yes"));
+            } else if (action.equals("getSessionId") {
+                return (callbackContext.success(FlurryAgent.getSessionId()));
+            } else if(action.equals("endSession")) {
+                FlurryAgent.onEndSession(cordova.getActivity().getBaseContext());
+            } else if (action.equals("addOrigin") {
+                FlurryAgent.addOrigin(args.getString(0), args.getString(1));
+            } else if(action.equals("addOriginWithParameters")) {
+                Map<String, String> params = this.JsonToMap(args.optJSONObject(2));
+                if(params != null)
+                   FlurryAgent.addOrigin(args.getString(0), args.getString(1), params);
+            } else if (action.equals("getReleaseVersion") {
+                return (callbackContext.success(FlurryAgent.getReleaseVersion()));
+            } else if (action.equals("getAgentVersion") {
+                return (callbackContext.success(FlurryAgent.getAgentVersion()));
+            } else if (action.equals("setLocation") {
+                FlurryAgent.setLocation(args.getFloat(0), args.getFloat(1));
+            } else if (action.equals("setLogLevel") {
+                FlurryAgent.setLogLevel(args.getInt(0));
             } else if(action.equals("setGender")) {
                 byte gender = Constants.UNKNOWN;
                 if (args.getString(0) == "m") {
@@ -83,7 +109,7 @@ public class Flurry extends CordovaPlugin {
                 callbackContext.error("invalid/na flurry method: " + action);
                 return false;
             }
-            callbackContext.success("");
+            callbackContext.success("success");
             return true; 
         } catch (JSONException e){
             Log.d("Flurry exception: ", e.getMessage());

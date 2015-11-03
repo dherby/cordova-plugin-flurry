@@ -19,35 +19,47 @@
 
   function Flurry() {};
 
-  // These functions must be called before you start the Flurry session
-
+  /*
+  ** These functions must be called before you start the Flurry session
+  */
+  
   Flurry.prototype.setAppVersion = function(version,successCallback,failureCallback) {
     return cordova.exec(successCallback, failureCallback, 'FlurryPlugin', 'setAppVersion', [version]);
   };
-
-  // argument must be Yes or No, because it's objective C
-  Flurry.prototype.setShowErrorInLogEnabled = function(enableValue, successCallback, failureCallback) {
-    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setShowErrorInLogEnabled', [bool2ObjC(enableValue)]);
+  
+  // Sets the log level of the internal Flurry SDK logging. Valid inputs are Log.VERBOSE, Log.WARN etc.
+  // Default log level is Log.WARN. This should be called before init
+  Flurry.prototype.setLogLevel = function(logLevel, successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setEventLoggingEnabled', [logLevel]);
   };
 
-  // argument must be Yes or No, because it's objective C
-  Flurry.prototype.setEventLoggingEnabled = function(enableValue, successCallback, failureCallback) {
-    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setEventLoggingEnabled', [bool2ObjC(enableValue)]);
-  };
-
-  // argument must be Yes or No, because it's objective C
-  Flurry.prototype.setDebugLogEnabled = function(enableValue, successCallback, failureCallback) {
-    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setDebugLogEnabled', [bool2ObjC(enableValue)]);
-  };
-
-  // argument must be Yes or No, because it's objective C
-  Flurry.prototype.setSecureTransportEnabled = function(enableValue, successCallback, failureCallback) {
-    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setSecureTransportEnabled', [bool2ObjC(enableValue)]);
-  };
-
+  // Use setLogEvents to enable/disable the event logging. This should be called before init
+  Flurry.prototype.setLogEvents = function(enableValue, successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setLogEvents', [bool2ObjC(enableValue)]);
+  };  
+  
+  //Use setLogEnabled to enable/disable internal Flurry SDK logging. This should be called before init .
+  Flurry.prototype.setLogEnabled = function(enableValue, successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setLogEnabled', [bool2ObjC(enableValue)]);
+  }; 
+  
+  // Use setLogEvents to enable/disable the event logging. This should be called before init
+  Flurry.prototype.setReportLocation = function(enableValue, successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setReportLocation', [bool2ObjC(enableValue)]);
+  };  
+  
+  //Enabling Flurry Pulse shares your app data with Pulse integrated partners. Starting version 5.5.0, Flurry
+  // provides means to turn on sending selected session events to integrated partners. You need to turn on
+  // Pulse using the API call before calling FlurryAgent.init() . Use setPulseEnabled to enable/disable
+  // Flurry Pulse.
+  Flurry.prototype.setPulseEnabled = function(enableValue, successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setPulseEnabled', [bool2ObjC(enableValue)]);
+  };  
+  
+  
   // seconds must be an integer
-  Flurry.prototype.setSessionContinueSeconds = function(seconds, successCallback, failureCallback) {
-    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setSessionContinueSeconds', [seconds]);
+  Flurry.prototype.setContinueSessionMillis = function(milliseconds, successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setContinueSessionMillis', [milliseconds]);
   };
 
   // argument must be Yes or No, because it's objective C
@@ -55,8 +67,23 @@
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setCrashReportingEnabled', [bool2ObjC(enableValue)]);
   };
 
-  // End of functions that must be called before Flurry session starts
+  // Use addOrigin to add the origin attribution. The event is identified by the originName, originVersion and
+  // originParameters. OriginParameters can be passed in as a Map<String,String> where the key is the
+  // parameter name, and the value is the value. This should be called before init
+  // String originName, String originVersion
+  Flurry.prototype."addOrigin" = function(originName, originVersion, successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', '"addOrigin"', [originName, originVersion]);
+  };
+  
+  // parameters must be a JSON dictionary that contains only strings like {id:"4", price: "471"}
+  Flurry.prototype."addOriginWithParameters" = function(originName, originVersion, parameters, successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', '"addOrigin"', [originName, originVersion, parameters]);
+  };  
 
+  /*
+  ** End of functions that must be called before Flurry session starts
+  */
+  
   // key is a string
   Flurry.prototype.startSession = function(key,successCallback,failureCallback) {
     return cordova.exec(successCallback, failureCallback, 'FlurryPlugin', 'startSession', [key]);
@@ -85,23 +112,24 @@
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'logTimedEvent', [event, bool2ObjC(timed)]);
   };
 
-  // parameters must be a JSON dictionary that contains only strings like {id:"4", price: "471", location: "New York"}
+  // parameters must be a JSON dictionary that contains only strings like {id:"4", price: "471"}
   // timed must be Yes or No, because it's objective C
   Flurry.prototype.logTimedEventWithParameters = function(event, parameters, timed, successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'logTimedEventWithParameters', [event, parameters, bool2ObjC(timed)]);
   };
 
+  // Timed event can be logged using FlurryAgent.logEvent . Use endTimedEvent to end the timed event.
   Flurry.prototype.endTimedEvent = function(event, successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'endTimedEvent', [event]);
   };
 
-  // parameters must be a JSON dictionary that contains only strings like {id:"4", price: "471", location: "New York"}
+  // parameters must be a JSON dictionary that contains only strings like {id:"4", price: "471"}
   // only used if you want to override the original parameters
   Flurry.prototype.endTimedEventWithParameters = function(event, parameters, successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'endTimedEventWithParameters', [event, parameters]);
   };
 
-  // userID must be a string
+  // userID must be a string. 
   Flurry.prototype.setUserID = function(userID, successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setUserID', [userID]);
   };
@@ -116,25 +144,49 @@
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setAge', [age]);
   };
 
-  // latitude and longitude must be doubles; horizontal and vertical accuracy must be float
-  Flurry.prototype.setLatitude = function(latitude, longitude, horizontalAccuracy, verticalAccuracy, successCallback, failureCallback) {
-    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setLatitude', [latitude,longitude,horizontalAccuracy,verticalAccuracy]);
-  };
+  // Call this method to set the current location (used with geographical targeting). 
+  // This should be called beforeinit , if possible; otherwise call it as soon as the location is available.
+  Flurry.prototype.setLocation = function(lat, lng, successCallback,failureCallback) {
+    return cordova.exec(successCallback, failureCallback, 'FlurryPlugin', 'setLocation', [lat, lng]);
+  };  
 
-  // argument must be Yes or No, because it's objective C
+  
+  // [IOS] argument must be Yes or No, because it's objective C
   Flurry.prototype.setSessionReportsOnCloseEnabled = function (enabled, successCallback, failureCallback) {
     return cordova.exec(successCallback, failureCallback, 'FlurryPlugin', 'setSessionReportsOnCloseEnabled', [bool2ObjC(enabled)]);
   };
 
-  // argument must be Yes or No, because it's objective C
+  // [IOS] argument must be Yes or No, because it's objective C
   Flurry.prototype.setSessionReportsOnPauseEnabled = function (enabled, successCallback, failureCallback) {
     return cordova.exec(successCallback, failureCallback, 'FlurryPlugin', 'setSessionReportsOnPauseEnabled', [bool2ObjC(enabled)]);
   };
 
+  // Use onError to report errors that your application catches. 
+  // Flurry will report the first 10 errors to occur in each session.
   Flurry.prototype.logError = function(errorID, message, successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'logError', [errorID, message]);
   };
 
+  // Returns true if Flurry session is active and false otherwise.
+  Flurry.prototype.isSessionActive = function(successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'isSessionActive', []);
+  };
+  
+  // Gets the active Flurry session id.
+  Flurry.prototype.getSessionId = function(successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'getSessionId', []);
+  };
+
+  // Returns a string containing current Flurry SDK release version
+  Flurry.prototype.getReleaseVersion = function(successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'getReleaseVersion', []);
+  };
+
+  // Gets the version of the Flurry SDK.
+  Flurry.prototype.getAgentVersion = function(successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'getAgentVersion', []);
+  };
+    
   Flurry.install = function() {
     if (!window.plugins) {
       window.plugins = {};
