@@ -2,20 +2,20 @@
 <plugin
 	xmlns="http://apache.org/cordova/ns/plugins/1.0"
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	id="com.phonegap.plugins.Flurry"
+	id="cordova-plugin-flurry"
 	version="3.3.6">
 	<name>Flurry</name>
 	<description>Cordova/Phonegap plugin for Flurry mobile analytics</description>
 	<license>Apache 2.0</license>
 	<keywords>flurry,analytics,phonegap,cordova</keywords>
-	<author>jfpsf</author>
+	<author>jfpsf,dherby</author>
 
 	<js-module src="www/flurryPlugin.js" name="FlurryPlugin">
 		<clobbers target="FlurryPlugin" />
 	</js-module>
 
 	<engines>
-		<engine name="cordova" version=">=3.0.0" />
+		<engine name="cordova" version=">=4.0.0" />
 	</engines>
 
 	<platform name="ios">
