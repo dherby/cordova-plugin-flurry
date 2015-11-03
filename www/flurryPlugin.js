@@ -71,12 +71,12 @@
   // originParameters. OriginParameters can be passed in as a Map<String,String> where the key is the
   // parameter name, and the value is the value. This should be called before init
   // String originName, String originVersion
-  Flurry.prototype."addOrigin" = function(originName, originVersion, successCallback, failureCallback) {
+  Flurry.prototype.addOrigin = function(originName, originVersion, successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', '"addOrigin"', [originName, originVersion]);
   };
   
   // parameters must be a JSON dictionary that contains only strings like {id:"4", price: "471"}
-  Flurry.prototype."addOriginWithParameters" = function(originName, originVersion, parameters, successCallback, failureCallback) {
+  Flurry.prototype.addOriginWithParameters = function(originName, originVersion, parameters, successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', '"addOrigin"', [originName, originVersion, parameters]);
   };  
 
