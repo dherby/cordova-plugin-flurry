@@ -54,20 +54,12 @@ public class Flurry extends CordovaPlugin {
                 FlurryAgent.setReportLocation(args.optString(0).equalsIgnoreCase("Yes"));
             } else if (action.equals("setPulseEnabled")) {
                 FlurryAgent.setPulseEnabled(args.optString(0).equalsIgnoreCase("Yes"));
-            } else if (action.equals("getSessionId")) {
-                callbackContext.success(FlurryAgent.getSessionId());
-            } else if(action.equals("endSession")) {
-                FlurryAgent.onEndSession(cordova.getActivity().getBaseContext());
             } else if (action.equals("addOrigin")) {
                 FlurryAgent.addOrigin(args.getString(0), args.getString(1));
             } else if(action.equals("addOriginWithParameters")) {
                 Map<String, String> params = this.JsonToMap(args.optJSONObject(2));
                 if(params != null)
                    FlurryAgent.addOrigin(args.getString(0), args.getString(1), params);
-            } else if (action.equals("getReleaseVersion")) {
-                callbackContext.success(FlurryAgent.getReleaseVersion());
-            } else if (action.equals("getAgentVersion")) {
-                callbackContext.success(FlurryAgent.getAgentVersion());
             } else if (action.equals("setLocation")) {
                 FlurryAgent.setLocation((float)args.getDouble(0), (float)args.getDouble(1));
             } else if (action.equals("setLogLevel")) {
@@ -94,11 +86,18 @@ public class Flurry extends CordovaPlugin {
                 Map<String, String> params = this.JsonToMap(args.optJSONObject(1));
                 if(params != null)
                     FlurryAgent.endTimedEvent(args.getString(0), params);
-            }
-            else if (action.equals("setCrashReportingEnabled")) {
+            } else if (action.equals("setCrashReportingEnabled")) {
                 FlurryAgent.setCaptureUncaughtExceptions(args.optString(0).equalsIgnoreCase("Yes"));
+            } else if (action.equals("getSessionId")) {
+                callbackContext.success(FlurryAgent.getSessionId());
+            } else if (action.equals("getReleaseVersion")) {
+                callbackContext.success(FlurryAgent.getReleaseVersion());
+            } else if (action.equals("getAgentVersion")) {
+                callbackContext.success(FlurryAgent.getAgentVersion());
+            } else if (action.equals("isSessionActive")) {
+                callbackContext.success(FlurryAgent.isSessionActive());
             }
-            else if (action.equals("logPageView")) {
+            else if (action.equals("onPageView")) {
                 FlurryAgent.onPageView();
             }
             else if (action.equals("logError")) {

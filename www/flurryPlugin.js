@@ -23,6 +23,9 @@
   ** These functions must be called before you start the Flurry session
   */
   
+  // Sets the version name of the app. 
+  // This name will appear in the http://dev.flurry.com as a filtering option by version. 
+  // This should be called before init
   Flurry.prototype.setAppVersion = function(version,successCallback,failureCallback) {
     return cordova.exec(successCallback, failureCallback, 'FlurryPlugin', 'setAppVersion', [version]);
   };
@@ -38,12 +41,14 @@
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setLogEvents', [bool2ObjC(enableValue)]);
   };  
   
-  //Use setLogEnabled to enable/disable internal Flurry SDK logging. This should be called before init .
+  // Use setLogEnabled to enable/disable internal Flurry SDK logging. This should be called before init .
   Flurry.prototype.setLogEnabled = function(enableValue, successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setLogEnabled', [bool2ObjC(enableValue)]);
   }; 
   
-  // Use setLogEvents to enable/disable the event logging. This should be called before init
+  // Use setReportLocation to enable/disable location tracking. Flurry uses cached value 
+  // (to avoid excessive battery usage) when location reporting is enabled .
+  // You may call FlurryAgent.setLocation() to set the location manually if your app uses the GPS.
   Flurry.prototype.setReportLocation = function(enableValue, successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setReportLocation', [bool2ObjC(enableValue)]);
   };  
@@ -55,14 +60,15 @@
   Flurry.prototype.setPulseEnabled = function(enableValue, successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setPulseEnabled', [bool2ObjC(enableValue)]);
   };  
-  
-  
-  // seconds must be an integer
+    
+  // If you wish to change the window during which a session can be resumed, call
+  // FlurryAgent.setContinueSessionMillis(long milliseconds) before the call to init
   Flurry.prototype.setContinueSessionMillis = function(milliseconds, successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setContinueSessionMillis', [milliseconds]);
   };
 
-  // argument must be Yes or No, because it's objective C
+  // Used to allow/disallow Flurry SDK to report uncaught exceptions. 
+  // The feature is enabled by default and if you would like to disable this behavior, this must be called before calling init
   Flurry.prototype.setCrashReportingEnabled = function(enableValue, successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setCrashReportingEnabled', [bool2ObjC(enableValue)]);
   };
@@ -70,16 +76,33 @@
   // Use addOrigin to add the origin attribution. The event is identified by the originName, originVersion and
   // originParameters. OriginParameters can be passed in as a Map<String,String> where the key is the
   // parameter name, and the value is the value. This should be called before init
-  // String originName, String originVersion
+  // String originName, String originVersion, parameters must be a JSON dictionary that contains only strings like {id:"4", price: "471"}
   Flurry.prototype.addOrigin = function(originName, originVersion, successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', '"addOrigin"', [originName, originVersion]);
-  };
-  
-  // parameters must be a JSON dictionary that contains only strings like {id:"4", price: "471"}
+  };  
   Flurry.prototype.addOriginWithParameters = function(originName, originVersion, parameters, successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', '"addOrigin"', [originName, originVersion, parameters]);
   };  
 
+  // Use this to log the user's gender. Valid inputs are Constants.MALE or Constants.FEMALE . 
+  // This should be called before init , if possible.gender must be a string.
+  // male and female are acceptable values
+  Flurry.prototype.setGender = function(gender, successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setGender', [gender]);
+  };
+  
+  // Use this to log the user's assigned ID or username in your system. This should be called before init , 
+  // if possible. userID must be a string. 
+  Flurry.prototype.setUserID = function(userID, successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setUserID', [userID]);
+  };
+
+  // Use this to log the user's age. Valid inputs are between 1 and 109. 
+  // This should be called before init , if possible. age must be an integer
+  Flurry.prototype.setAge = function(age, successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setAge', [age]);
+  };
+  
   /*
   ** End of functions that must be called before Flurry session starts
   */
@@ -103,8 +126,10 @@
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'logEventWithParameters', [event, parameters]);
   };
 
-  Flurry.prototype.logPageView = function(successCallback, failureCallback) {
-    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'logPageView', []);
+  // Use onPageView to report page view count. You should call this method whenever a new page is shown 
+  // to the user to increment the total count. Page view is tracked separately from events.
+  Flurry.prototype.onPageView = function(successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'onPageView', []);
   };
 
   // timed must be Yes or No, because it's objective C
@@ -127,21 +152,6 @@
   // only used if you want to override the original parameters
   Flurry.prototype.endTimedEventWithParameters = function(event, parameters, successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'endTimedEventWithParameters', [event, parameters]);
-  };
-
-  // userID must be a string. 
-  Flurry.prototype.setUserID = function(userID, successCallback, failureCallback) {
-    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setUserID', [userID]);
-  };
-
-  // gender must be a string. male and female are acceptable values
-  Flurry.prototype.setGender = function(gender, successCallback, failureCallback) {
-    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setGender', [gender]);
-  };
-
-  // age must be an integer
-  Flurry.prototype.setAge = function(age, successCallback, failureCallback) {
-    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'setAge', [age]);
   };
 
   // Call this method to set the current location (used with geographical targeting). 
@@ -167,11 +177,6 @@
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'logError', [errorID, message]);
   };
 
-  // Returns true if Flurry session is active and false otherwise.
-  Flurry.prototype.isSessionActive = function(successCallback, failureCallback) {
-    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'isSessionActive', []);
-  };
-  
   // Gets the active Flurry session id.
   Flurry.prototype.getSessionId = function(successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'getSessionId', []);
@@ -186,7 +191,12 @@
   Flurry.prototype.getAgentVersion = function(successCallback, failureCallback) {
     return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'getAgentVersion', []);
   };
-    
+
+  // Returns true if Flurry session is active and false otherwise.
+  Flurry.prototype.isSessionActive = function(successCallback, failureCallback) {
+    return cordova.exec( successCallback, failureCallback, 'FlurryPlugin', 'isSessionActive', []);
+  };
+  
   Flurry.install = function() {
     if (!window.plugins) {
       window.plugins = {};
