@@ -113,7 +113,22 @@
 
 - (void) setReportLocation:(CDVInvokedUrlCommand*)command
 {
-   NSLog(@"setReportLocation Not Available for IOS");
+    [self.commandDelegate runInBackground:^{
+        CDVPluginResult* pluginResult = nil;
+
+        NSLog(@"setReportLocation Not Available on IOS");
+        
+        @try {
+            NSString *responseString = @"setReportLocation Not Available on IOS";
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:responseString];
+        }
+        @catch (NSException *exception) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                             messageAsString:[exception reason]];
+        }
+        
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
 }
 
 - (void) setPulseEnabled:(CDVInvokedUrlCommand*)command
@@ -143,7 +158,7 @@
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
         
-        NSLog(@"Setting Flurry Session Limit to %@", [command.arguments objectAtIndex:0]);
+        NSLog(@"Setting Flurry Session Limit to %d", [[command.arguments objectAtIndex:0]integerValue] / 1000);
         
         @try {
             int Seconds = [[command.arguments objectAtIndex:0]integerValue] / 1000;
@@ -190,8 +205,7 @@
         @try {
             NSString* originName = [command.arguments objectAtIndex:0];
             NSString* originVersion = [command.arguments objectAtIndex:1];
-            
-            [Flurry addOrigin: originName, originVersion ];
+            [Flurry addOrigin:originName withVersion:originVersion];
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         }
         @catch (NSException *exception) {
@@ -217,7 +231,7 @@
             NSString* originVersion = [command.arguments objectAtIndex:1]; 
             NSDictionary* parameters =  [NSDictionary dictionaryWithDictionary:[command.arguments objectAtIndex:2]];        
             
-            [Flurry logEvent:originName, originVersion withParameters:parameters];
+            [Flurry addOrigin:originName withVersion:originVersion withParameters:parameters];
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         }
         @catch (NSException *exception) {
@@ -328,7 +342,22 @@
 
 - (void) endSession:(CDVInvokedUrlCommand*)command
 {
-   NSLog(@"endSession Not Available for IOS");
+    [self.commandDelegate runInBackground:^{
+        CDVPluginResult* pluginResult = nil;
+
+        NSLog(@"endSession Not Available on IOS");
+        
+        @try {
+            NSString *responseString = @"endSession Not Available on IOS";
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:responseString];
+        }
+        @catch (NSException *exception) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                             messageAsString:[exception reason]];
+        }
+        
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
 }
 
 - (void) logEvent:(CDVInvokedUrlCommand*)command
@@ -553,9 +582,8 @@
         NSLog(@"Logging getSessionID");
         
         @try {
-            
-            [Flurry getSessionID];
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            NSString *responseString = [Flurry getSessionID];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:responseString];
         }
         @catch (NSException *exception) {
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
@@ -568,7 +596,22 @@
 
 - (void) getReleaseVersion:(CDVInvokedUrlCommand*)command
 {
-    // TODO
+    [self.commandDelegate runInBackground:^{
+        CDVPluginResult* pluginResult = nil;
+
+        NSLog(@"getReleaseVersion Not Available on IOS");
+        
+        @try {
+            NSString *responseString = @"getReleaseVersion Not Available on IOS";
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:responseString];
+        }
+        @catch (NSException *exception) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                             messageAsString:[exception reason]];
+        }
+        
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
 }
 
 - (void) getAgentVersion:(CDVInvokedUrlCommand*)command
@@ -579,9 +622,8 @@
         NSLog(@"Logging getAgentVersion");
         
         @try {
-            
-            [Flurry getFlurryAgentVersion];
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            NSString *responseString = [Flurry getFlurryAgentVersion];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:responseString];
         }
         @catch (NSException *exception) {
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
@@ -599,10 +641,9 @@
         
         NSLog(@"Logging isSessionActive");
         
-        @try {
-            
-            [Flurry activeSessionExists];
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        @try {            
+            NSString *responseString = [NSString stringWithFormat:@"%s", [Flurry activeSessionExists] ? "true" : "false"];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:responseString];
         }
         @catch (NSException *exception) {
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
