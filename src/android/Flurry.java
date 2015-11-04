@@ -30,8 +30,8 @@ public class Flurry extends CordovaPlugin {
         }
         return params;
     }
-    
-    @Override
+        
+        @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         try{
             Log.d("Flurry", action);
