@@ -367,7 +367,7 @@
         
         NSString* event = [command.arguments objectAtIndex:0];
         
-        NSLog(@"Logging Event %@", event);
+        // NSLog(@"Logging Event %@", event);
         
         @try {
             
@@ -388,8 +388,8 @@
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
         
-        NSLog(@"Logging Event %@", [command.arguments objectAtIndex:0]);
-        NSLog(@"Event Parameters: %@", [command.arguments objectAtIndex:1]);
+        // NSLog(@"Logging Event %@", [command.arguments objectAtIndex:0]);
+        // NSLog(@"Event Parameters: %@", [command.arguments objectAtIndex:1]);
         
         @try {
             NSString* event = [command.arguments objectAtIndex:0];
@@ -412,7 +412,7 @@
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
         
-        NSLog(@"Logging Timed Event %@", [command.arguments objectAtIndex:0]);
+        // NSLog(@"Logging Timed Event %@", [command.arguments objectAtIndex:0]);
         
         @try {
             NSString* event = [command.arguments objectAtIndex:0];
@@ -435,8 +435,8 @@
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
 
-        NSLog(@"Logging Event %@", [command.arguments objectAtIndex:0]);
-        NSLog(@"Event Parameters: %@", [command.arguments objectAtIndex:1]);
+        // NSLog(@"Logging Event %@", [command.arguments objectAtIndex:0]);
+        // NSLog(@"Event Parameters: %@", [command.arguments objectAtIndex:1]);
 
         @try 
         {
@@ -463,7 +463,7 @@
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
         
-        NSLog(@"Logging End of Timed Event %@", [command.arguments objectAtIndex:0]);
+        // NSLog(@"Logging End of Timed Event %@", [command.arguments objectAtIndex:0]);
         
         @try {
             NSString* event = [command.arguments objectAtIndex:0];
@@ -485,8 +485,8 @@
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
         
-        NSLog(@"Ending Timed Event %@", [command.arguments objectAtIndex:0]);
-        NSLog(@"Event Parameters: %@", [command.arguments objectAtIndex:1]);
+        // NSLog(@"Ending Timed Event %@", [command.arguments objectAtIndex:0]);
+        // NSLog(@"Event Parameters: %@", [command.arguments objectAtIndex:1]);
         
         @try {
             NSString* event = [command.arguments objectAtIndex:0];
@@ -509,7 +509,7 @@
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
         
-        NSLog(@"Logging Page View");
+        // NSLog(@"Logging Page View");
         
         @try {
             
@@ -530,7 +530,7 @@
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
         
-        NSLog(@"Reporting location to Flurry");
+        // NSLog(@"Reporting location to Flurry");
         
         @try {
             double Latitude   = [[command.arguments objectAtIndex:0]doubleValue];
@@ -558,7 +558,7 @@
         NSString* errorID = [command.arguments objectAtIndex:0];
         NSString* message = [command.arguments objectAtIndex:1];
         
-        NSLog(@"Logging Error with id %@", errorID);
+        // NSLog(@"Logging Error with id %@", errorID);
         
         @try {
             
@@ -579,7 +579,7 @@
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
         
-        NSLog(@"Logging getSessionID");
+        // NSLog(@"Logging getSessionID");
         
         @try {
             NSString *responseString = [Flurry getSessionID];
@@ -619,7 +619,7 @@
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
         
-        NSLog(@"Logging getAgentVersion");
+        // NSLog(@"Logging getAgentVersion");
         
         @try {
             NSString *responseString = [Flurry getFlurryAgentVersion];
@@ -639,7 +639,7 @@
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
         
-        NSLog(@"Logging isSessionActive");
+        // NSLog(@"Logging isSessionActive");
         
         @try {            
             NSString *responseString = [NSString stringWithFormat:@"%s", [Flurry activeSessionExists] ? "true" : "false"];
@@ -659,7 +659,7 @@
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
         
-        NSLog(@"Enabling Flurry Report On App Closing");
+        // NSLog(@"Enabling Flurry Report On App Closing");
         
         @try {
             bool Value = [[command.arguments objectAtIndex:0]boolValue];
@@ -681,7 +681,7 @@
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
         
-        NSLog(@"Enabling Flurry Report On App Pausing");
+        // NSLog(@"Enabling Flurry Report On App Pausing");
         
         @try {
             bool Value = [[command.arguments objectAtIndex:0]boolValue];
