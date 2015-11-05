@@ -50,7 +50,7 @@
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
         
-        NSLog(@"Enabling Flurry Event Logging");
+        NSLog(@"Setting Flurry Event Logging %@", [command.arguments objectAtIndex:0]);
         
         @try {
             bool Value = [[command.arguments objectAtIndex:0]boolValue];
@@ -72,7 +72,7 @@
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
         
-        NSLog(@"Enabling Flurry Debug Logging");
+        NSLog(@"Setting Flurry Debug Logging %@", [command.arguments objectAtIndex:0]);
         
         @try {
             bool Value = [[command.arguments objectAtIndex:0]boolValue];
@@ -95,7 +95,7 @@
         CDVPluginResult* pluginResult = nil;
 
         
-        NSLog(@"Enabling Show Error in Flurry Event Logging");
+        NSLog(@"Setting Show Error in Flurry Event Logging @", [command.arguments objectAtIndex:0]);
         
         @try {
             bool Value = [[command.arguments objectAtIndex:0]boolValue];
@@ -136,7 +136,7 @@
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
         
-        NSLog(@"Enabling Pulse Logging");
+        NSLog(@"Setting Pulse Logging %@", [command.arguments objectAtIndex:0]);
         
         @try {
             bool Value = [[command.arguments objectAtIndex:0]boolValue];
@@ -179,7 +179,7 @@
 {
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
-        NSLog(@"Enabling Crash Reporting in Flurry");
+        NSLog(@"Enabling Crash Reporting in Flurry %@", [command.arguments objectAtIndex:0]);
         
         @try {
             bool enabled = [[command.arguments objectAtIndex:0]boolValue];
